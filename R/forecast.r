@@ -1,7 +1,19 @@
 #' Simulate cases
 #'
 #' @importFrom stats rpois rnbinom rexp
-simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03, k=2.5, beta=1., D=5, Dprime=7, distrib=0, R = 0, dist_mat=0, popmat=0)
+fix_nan <- function(x){
+  x[is.nan(x)] <- 0
+  x
+}
+
+
+fix_inf <- function(x){
+  x[is.infinite(x)] <- 0
+  x
+}
+
+
+simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03, k=2.5, beta=1., D=5, Dprime=7, distrib=0, R = 0, dist_mat=0, popmat=0, adjmat=0)
 
 {
   W_ij = popmat / (dist_mat^k)                                                                # calculate and normalise gravity kernal matrix
@@ -101,6 +113,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) 
   R = data$R
   dist_mat = data$MIJ
   popmat=data$popmat
+  adjmat = data$adjmat
 
   case_mat_int = data$N
 
@@ -125,7 +138,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) 
       beta = betas[n]
       # Simulate forecast data VVV
       case_mat_forcast = simulate_cases(start=2, days=max(time_horizons), case_mat = t(data$N), cases_from = cases_from,
-                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat)
+                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat, adjmat = adjmat)
 
       # Return binary descriptor of the presence of cases VVV
 

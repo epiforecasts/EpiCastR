@@ -72,12 +72,12 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
 
 
 
-  if (dim(timeseries$diff_cases)[2] - day_of_forecast  > 14)
+  if (dim(timeseries_mat)[2] - day_of_forecast  > 14)
   {print('evaluating 14 day forecast')
 
 
     scores$score_14 = score_forecasts(ds_ordered$risk_14, timeseries_mat, 14, day_of_forecast)
-    scores$score_14_log = log_prob_score(ds_ordered$risk_14, ttimeseries_mat, 14, day_of_forecast)
+    scores$score_14_log = log_prob_score(ds_ordered$risk_14, timeseries_mat, 14, day_of_forecast)
     scores$null_14 = score_forecasts(prev_28, timeseries_mat, 14, day_of_forecast)
     scores$null_14_log = log_prob_score(prev_28, timeseries_mat, 14, day_of_forecast)
 
@@ -95,7 +95,7 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
   }
 
 
-  casestodate = rowSums(timeseries$diff_cases[,1:(day_of_forecast)])
+  casestodate = rowSums(timeseries_mat[,1:(day_of_forecast)])
   ds_ordered$casestodate = casestodate
 
 

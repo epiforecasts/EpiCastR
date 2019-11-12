@@ -6,6 +6,12 @@
 \usage{
 score_forecasts(risk_values, diff_cases, timehorizon, day_of_forecast)
 }
+\arguments{
+  \item{risk_values}{tbc}
+  \item{diff_cases}{tbc}
+  \item{timehorizon}{tbc}
+  \item{day_of_forecast}{tbc}
+  }
 \description{
 Score forecasts
 }

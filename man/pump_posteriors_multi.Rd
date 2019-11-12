@@ -7,6 +7,12 @@
 pump_posteriors_multi(fit, data, iters = 1, time_horizons = c(7, 14,
   28))
 }
+\arguments{
+  \item{fit}{rstan fit object}
+  \item{data}{datalist - used in stan model}
+  \item{iters}{number of iterations per sample for simulated cases}
+  \item{time_horizons}{vector of timehorizons to return forecasts for}
+  }
 \description{
 Pump posteriors
 }

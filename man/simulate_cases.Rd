@@ -7,8 +7,26 @@
 simulate_cases(start = 0, days = 30, case_mat = NULL,
   cases_from = NULL, gamma = 0.14, alpha_adj = 0.03,
   alpha_spat = 0.03, k = 2.5, beta = 1, D = 5, Dprime = 7,
-  distrib = 0, R = 0, dist_mat = 0, popmat = 0)
+  distrib = 0, R = 0, dist_mat = 0, popmat = 0, adjmat=0)
 }
+\arguments{
+  \item{start}{a matrix of timeseries of cases for each geographical region [region x timestep]}
+  \item{days}{sf or sp object with polygon geometry of regions and population size}
+  \item{case_mat}{timestep to use in fit (relative to the "timeseries"" timestep)}
+  \item{cases_from}{vector of 2 values in timesteps: first the period of influencial cases, second the lag between influential cases and fitted data}
+  \item{gamma}{name of the column to sort regions by - must cooporate with timeseries order}
+  \item{alpha_adj}{population column in spatial data}
+  \item{alpha_spat}{vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.}
+  \item{k}{ poisson = 0, negative binomial = 1}
+  \item{beta}{path to stan template to build model}
+  \item{D}{variational bayes 'vb', Hamiltonian MC 'nuts'}
+  \item{Dprime}{number of MC chains}
+  \item{distrib}{number of cores to use}
+  \item{R}{number of iterations per chain}
+  \item{dist_mat}{number of iterations in warmup phase}
+  \item{popmat}{tbc}
+  \item{adjmat}{tbc}
+  }
 \description{
 Simulate cases
 }
