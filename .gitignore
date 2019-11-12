@@ -43,4 +43,5 @@ rsconnect/
 
 *.lock
 
-**/output           
+**/output 
+*.Rbuildignore          
