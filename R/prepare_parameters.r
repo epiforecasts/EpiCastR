@@ -48,7 +48,7 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c
   # SET ADJACENCY INTERACTION
 
         if (4 %in% interaction){
-          nbsdrc = poly2nb(DRC_ordered)
+          nbsdrc = poly2nb(shapes_ordered)
           adjmat = nb2mat(nbsdrc, zero.policy=TRUE)
         } else {
           adjmat = matrix(0., ncol=R, nrow=R)
