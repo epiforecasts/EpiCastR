@@ -15,14 +15,15 @@
 #' @param warmup number of iterations in warmup phase
 #'
 #'
-#'
-#' @importFrom Rcpp, evalCpp
+#' @importFrom rstan stan_model vb sampling
 #' @export
 
 
 
 fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), identifier="ADM2_NAME",
                       popid='totpop2019', interaction=c(1), distrib=0, model_path=system.file("extdata/template.stan",package = "EpiCastR"), fit_meth = 'vb', chains=1, iter=100, warmup=50, cores=1) {
+
+  library(rstan)
 
   params = prepare_stan_inputs(timeseries, shapes, timestep, period_and_lag, identifier,
                                  popid, interaction, distrib)
@@ -69,15 +70,15 @@ fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), ide
   pars = unique(pars)
 
   print("writing model")
-  sm = stan_model(model_code = model)
+  sm = rstan::stan_model(model_code = model)
 
   print("fitting model")
 
   if (fit_meth == 'nuts'){
-    fit1 <- sampling(sm, data = datalist, chains = chains, iter = iter, warmup = warmup, cores = cores,pars =pars)    # fit stan model
+    fit1 <- rstan::sampling(sm, data = datalist, chains = chains, iter = iter, warmup = warmup, cores = cores,pars =pars)    # fit stan model
   }
   if (fit_meth == 'vb'){
-    fit1 <- vb(sm, data = datalist, pars = pars)    # fit stan model
+    fit1 <- rstan::vb(sm, data = datalist, pars = pars)    # fit stan model
   }
 
   list(fit = fit1, data = datalist, ordered_shapes)
