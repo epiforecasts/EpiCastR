@@ -7,9 +7,10 @@
 construct_stan_model(model_path, interactions = c(1, 4))
 }
 \arguments{
-  \item{model_path}{path to stan template to build model}
-  \item{interactions}{vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.}
-  }
+\item{model_path}{path to stan template to build model}
+
+\item{interactions}{vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.}
+}
 \description{
 Construct stan model
 }

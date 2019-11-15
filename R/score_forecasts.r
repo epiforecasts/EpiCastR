@@ -1,6 +1,10 @@
 #' Score forecasts
-#'
+#' @param risk_values tbc
+#' @param diff_cases tbc
+#' @param timehorizon tbc
+#' @param day_of_forecast tbc
 #' @importFrom DescTools BrierScore
+#' @export
 score_forecasts= function(risk_values, diff_cases, timehorizon, day_of_forecast) {
 
   wherecaseswere = 1*(rowSums(diff_cases[,day_of_forecast:(day_of_forecast+timehorizon)]) > 0)

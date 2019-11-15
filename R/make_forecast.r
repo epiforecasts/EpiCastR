@@ -1,4 +1,23 @@
 
+#' make_forecast
+#'
+#' @importFrom stats rpois rnbinom rexp
+#' @param timeseries_mat a matrix of timeseries of cases for each geographical region [region x timestep]
+#' @param shapes sf or sp object with polygon geometry of regions and population size
+#' @param day_of_forecast day of outbreak to make forecast - default last day of data
+#' @param fit_over number of timesteps to fit over.
+#' @param timestep timestep to use in fit (relative to the "timeseries"" timestep)
+#' @param period_and_lag vector of 2 values in timesteps: first the period of influencial cases, second the lag between influential cases and fitted data
+#' @param interaction vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.
+#' @param distrib  poisson = 0, negative binomial = 1
+#' @param fit_meth variational bayes 'vb', Hamiltonian MC 'nuts'
+#' @param chains number of MC chains
+#' @param cores number of cores to use
+#' @param iter number of iterations per chain
+#' @param warmup number of iterations in warmup phase
+#' @export
+#'
+
 make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over=1000, timestep =1 ,  period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1) {
 
 

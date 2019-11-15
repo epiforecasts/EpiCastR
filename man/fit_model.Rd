@@ -7,24 +7,38 @@
 fit_model(timeseries, shapes, timestep = 1, period_and_lag = c(5, 7),
   identifier = "ADM2_NAME", popid = "totpop2019", interaction = c(1),
   distrib = 0, model_path = system.file("extdata/template.stan",
-  package = "EpiCastR"), fit_meth = "vb", chains=1, iter=100, warmup=50, cores=1)
+  package = "EpiCastR"), fit_meth = "vb", chains = 1, iter = 100,
+  warmup = 50, cores = 1)
 }
 \arguments{
-  \item{timeseries}{a matrix of timeseries of cases for each geographical region [region x timestep]}
-  \item{shapes}{sf or sp object with polygon geometry of regions and population size}
-  \item{timestep}{timestep to use in fit (relative to the "timeseries"" timestep)}
-  \item{period_and_lag}{vector of 2 values in timesteps: first the period of influencial cases, second the lag between influential cases and fitted data}
-  \item{identifier}{name of the column to sort regions by - must cooporate with timeseries order}
-  \item{popid}{population column in spatial data}
-  \item{interaction}{vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.}
-  \item{distrib}{ poisson = 0, negative binomial = 1}
-  \item{model_path}{path to stan template to build model}
-  \item{fit_meth}{variational bayes 'vb', Hamiltonian MC 'nuts'}
-  \item{chains}{number of MC chains}
-  \item{cores}{number of cores to use}
-  \item{iter}{number of iterations per chain}
-  \item{warmup}{number of iterations in warmup phase}
-  }
+\item{timeseries}{a matrix of timeseries of cases for each geographical region [region x timestep]}
+
+\item{shapes}{sf or sp object with polygon geometry of regions and population size}
+
+\item{timestep}{timestep to use in fit (relative to the "timeseries"" timestep)}
+
+\item{period_and_lag}{vector of 2 values in timesteps: first the period of influencial cases, second the lag between influential cases and fitted data}
+
+\item{identifier}{name of the column to sort regions by - must cooporate with timeseries order}
+
+\item{popid}{population column in spatial data}
+
+\item{interaction}{vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.}
+
+\item{distrib}{poisson = 0, negative binomial = 1}
+
+\item{model_path}{path to stan template to build model}
+
+\item{fit_meth}{variational bayes 'vb', Hamiltonian MC 'nuts'}
+
+\item{chains}{number of MC chains}
+
+\item{iter}{number of iterations per chain}
+
+\item{warmup}{number of iterations in warmup phase}
+
+\item{cores}{number of cores to use}
+}
 \description{
 Fit stan model
 }

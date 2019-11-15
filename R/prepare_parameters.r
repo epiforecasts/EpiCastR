@@ -4,6 +4,14 @@
 #' @importFrom sf st_area st_centroid st_distance
 #' @importFrom spdep poly2nb nb2mat
 #' @importFrom zoo rollapply
+#' @param timeseries a matrix of timeseries of cases for each geographical region [region x timestep]
+#' @param shapes sf or sp object with polygon geometry of regions and population size
+#' @param timestep timestep to use in fit (relative to the "timeseries"" timestep)
+#' @param period_and_lag vector of 2 values in timesteps: first the period of influencial cases, second the lag between influential cases and fitted data
+#' @param identifier name of the column to sort regions by - must cooporate with timeseries order
+#' @param popid population column in spatial data
+#' @param interaction vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.
+#' @param distrib  poisson = 0, negative binomial = 1
 prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), identifier="ADM2_NAME",
                                 popid='totpop2019', interaction=c(1), distrib=0){
 

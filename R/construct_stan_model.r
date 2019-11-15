@@ -1,4 +1,7 @@
 #' Construct stan model
+#' @param model_path path to stan template to build model
+#' @param interactions vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.
+#' @export
 construct_stan_model <- function(model_path, interactions=c(1,4))
 
 {

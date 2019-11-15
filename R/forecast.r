@@ -1,6 +1,4 @@
-#' Simulate cases
-#'
-#' @importFrom stats rpois rnbinom rexp
+
 fix_nan <- function(x){
   x[is.nan(x)] <- 0
   x
@@ -12,7 +10,26 @@ fix_inf <- function(x){
   x
 }
 
-
+#' Simulate cases
+#' @param start a matrix of timeseries of cases for each geographical region [region x timestep]
+#' @param days sf or sp object with polygon geometry of regions and population size
+#' @param case_mat timestep to use in fit (relative to the "timeseries"" timestep)
+#' @param cases_from vector of 2 values in timesteps: first the period of influencial cases, second the lag between influential cases and fitted data
+#' @param gamma name of the column to sort regions by - must cooporate with timeseries order
+#' @param alpha_adj population column in spatial data
+#' @param alpha_spat vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.
+#' @param k  poisson = 0, negative binomial = 1
+#' @param beta path to stan template to build model
+#' @param D variational bayes 'vb', Hamiltonian MC 'nuts'
+#' @param Dprime number of MC chains
+#' @param distrib number of cores to use
+#' @param R number of iterations per chain
+#' @param dist_mat number of iterations in warmup phase
+#' @param popmat tbc
+#' @param adjmat tbc
+#' @importFrom stats rpois rnbinom rexp
+#' @export
+#'
 simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03, k=2.5, beta=1., D=5, Dprime=7, distrib=0, R = 0, dist_mat=0, popmat=0, adjmat=0)
 
 {
@@ -80,7 +97,10 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
 
 #' Pump posteriors
-#'
+#' @param fit rstan fit object
+#' @param data datalist - used in stan model
+#' @param iters number of iterations per sample for simulated cases
+#' @param time_horizons vector of timehorizons to return forecasts for
 #' @importFrom rstan extract
 #' @importFrom rlist list.append
 #' @importFrom utils tail
