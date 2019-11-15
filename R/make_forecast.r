@@ -66,7 +66,7 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
 
   prev_28 = 1. * (rowSums(timeseries_mat[,(day_of_forecast-28):day_of_forecast]) > 0)
 
-  scores = data.frame()
+  scores = list()
 
   score_7 = 1000.
   score_14 = 1000.
@@ -75,11 +75,11 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
   score_14_log = 1000.
   score_28_log = 1000.
 
-  if (dim(timeseries_mat)[2] - day_of_forecast  < 400)
+  if (dim(timeseries_mat)[2] - day_of_forecast  < 7)
 
   {print('no evaluation possible - not enough data')}
 
-  if (dim(timeseries_mat)[2] - day_of_forecast  > 400)
+  if (dim(timeseries_mat)[2] - day_of_forecast  > 7)
   {print('evaluating 7 day forecast')
 
     scores$score_7 = score_forecasts(ds_ordered$risk_7, timeseries_mat, 7, day_of_forecast)
@@ -91,7 +91,7 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
 
 
 
-  if (dim(timeseries_mat)[2] - day_of_forecast  > 400)
+  if (dim(timeseries_mat)[2] - day_of_forecast  > 14)
   {print('evaluating 14 day forecast')
 
 
@@ -104,7 +104,7 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
 
   }
 
-  if (dim(timeseries_mat)[2] - day_of_forecast  > 400)
+  if (dim(timeseries_mat)[2] - day_of_forecast  > 28)
   {print('evaluating 28 day forecast')
 
     scores$score_28 = score_forecasts(ds_ordered$risk_28, timeseries_mat, 28, day_of_forecast)
