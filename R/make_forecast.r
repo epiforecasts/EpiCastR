@@ -52,9 +52,17 @@ make_forecast <- function(timeseries_mat, shapes, day_of_forecast=NULL, fit_over
   ds_ordered$risk_14 = round(rowSums(outs_14 > 0)/dim(outs_14)[2],3)
   ds_ordered$risk_28 = round(rowSums(outs_28 > 0)/dim(outs_28)[2],3)
 
+  ds_ordered$risk_7_2 = round(rowSums(outs_7 >= 2)/dim(outs_7)[2],3)
+  ds_ordered$risk_14_2 = round(rowSums(outs_14 >= 2)/dim(outs_14)[2],3)
+  ds_ordered$risk_28_2 = round(rowSums(outs_28 >= 2)/dim(outs_28)[2],3)
+
   ds_ordered$risk_7_5 = round(rowSums(outs_7 >= 5)/dim(outs_7)[2],3)
   ds_ordered$risk_14_5 = round(rowSums(outs_14 >= 5)/dim(outs_14)[2],3)
   ds_ordered$risk_28_5 = round(rowSums(outs_28 >= 5)/dim(outs_28)[2],3)
+
+  ds_ordered$risk_7_6 = round(rowSums(outs_7 >= 6)/dim(outs_7)[2],3)
+  ds_ordered$risk_14_6 = round(rowSums(outs_14 >= 6)/dim(outs_14)[2],3)
+  ds_ordered$risk_28_6 = round(rowSums(outs_28 >= 6)/dim(outs_28)[2],3)
 
   ds_ordered$risk_7_10 = round(rowSums(outs_7 >= 10)/dim(outs_7)[2],3)
   ds_ordered$risk_14_10 = round(rowSums(outs_14 >= 10)/dim(outs_14)[2],3)
