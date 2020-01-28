@@ -45,3 +45,4 @@ rsconnect/
 
 **/output 
 *.Rbuildignore          
+.Rproj.user

@@ -4,9 +4,16 @@
 \alias{prepare_stan_inputs}
 \title{Prepare stan inputs}
 \usage{
-prepare_stan_inputs(timeseries, shapes, timestep = 1,
-  period_and_lag = c(5, 7), identifier = "ADM2_NAME",
-  popid = "totpop2019", interaction = c(1), distrib = 0)
+prepare_stan_inputs(
+  timeseries,
+  shapes,
+  timestep = 1,
+  period_and_lag = c(5, 7),
+  identifier = "ADM2_NAME",
+  popid = "totpop2019",
+  interaction = c(1),
+  distrib = 0
+)
 }
 \arguments{
 \item{timeseries}{a matrix of timeseries of cases for each geographical region [region x timestep]}

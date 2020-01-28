@@ -4,11 +4,22 @@
 \alias{fit_model}
 \title{Fit stan model}
 \usage{
-fit_model(timeseries, shapes, timestep = 1, period_and_lag = c(5, 7),
-  identifier = "ADM2_NAME", popid = "totpop2019", interaction = c(1),
-  distrib = 0, model_path = system.file("extdata/template.stan",
-  package = "EpiCastR"), fit_meth = "vb", chains = 1, iter = 100,
-  warmup = 50, cores = 1)
+fit_model(
+  timeseries,
+  shapes,
+  timestep = 1,
+  period_and_lag = c(5, 7),
+  identifier = "ADM2_NAME",
+  popid = "totpop2019",
+  interaction = c(1),
+  distrib = 0,
+  model_path = system.file("extdata/template.stan", package = "EpiCastR"),
+  fit_meth = "vb",
+  chains = 1,
+  iter = 100,
+  warmup = 50,
+  cores = 1
+)
 }
 \arguments{
 \item{timeseries}{a matrix of timeseries of cases for each geographical region [region x timestep]}

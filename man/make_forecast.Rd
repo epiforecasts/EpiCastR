@@ -4,10 +4,21 @@
 \alias{make_forecast}
 \title{make_forecast}
 \usage{
-make_forecast(timeseries_mat, shapes, day_of_forecast = NULL,
-  fit_over = 1000, timestep = 1, period_and_lag = c(5, 7),
-  interaction = c(1), distrib = 1, fit_meth = "vb", chains = 1,
-  iter = 100, warmup = 50, cores = 1)
+make_forecast(
+  timeseries_mat,
+  shapes,
+  day_of_forecast = NULL,
+  fit_over = 1000,
+  timestep = 1,
+  period_and_lag = c(5, 7),
+  interaction = c(1),
+  distrib = 1,
+  fit_meth = "vb",
+  chains = 1,
+  iter = 100,
+  warmup = 50,
+  cores = 1
+)
 }
 \arguments{
 \item{timeseries_mat}{a matrix of timeseries of cases for each geographical region [region x timestep]}

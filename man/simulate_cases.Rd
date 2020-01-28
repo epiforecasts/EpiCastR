@@ -4,10 +4,24 @@
 \alias{simulate_cases}
 \title{Simulate cases}
 \usage{
-simulate_cases(start = 0, days = 30, case_mat = NULL,
-  cases_from = NULL, gamma = 0.14, alpha_adj = 0.03,
-  alpha_spat = 0.03, k = 2.5, beta = 1, D = 5, Dprime = 7,
-  distrib = 0, R = 0, dist_mat = 0, popmat = 0, adjmat = 0)
+simulate_cases(
+  start = 0,
+  days = 30,
+  case_mat = NULL,
+  cases_from = NULL,
+  gamma = 0.14,
+  alpha_adj = 0.03,
+  alpha_spat = 0.03,
+  k = 2.5,
+  beta = 1,
+  D = 5,
+  Dprime = 7,
+  distrib = 0,
+  R = 0,
+  dist_mat = 0,
+  popmat = 0,
+  adjmat = 0
+)
 }
 \arguments{
 \item{start}{a matrix of timeseries of cases for each geographical region [region x timestep]}
