@@ -12,6 +12,8 @@
 #' @param popid population column in spatial data
 #' @param interaction vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.
 #' @param distrib  poisson = 0, negative binomial = 1
+#'
+#' @export
 prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), identifier="ADM2_NAME",
                                 popid='totpop2019', interaction=c(1), distrib=0){
 

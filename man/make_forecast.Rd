@@ -7,6 +7,7 @@
 make_forecast(
   timeseries_mat,
   shapes,
+  identifier = "ADM2_NAME",
   day_of_forecast = NULL,
   fit_over = 1000,
   timestep = 1,

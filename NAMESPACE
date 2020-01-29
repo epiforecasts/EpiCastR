@@ -3,6 +3,7 @@
 export(construct_stan_model)
 export(fit_model)
 export(make_forecast)
+export(prepare_stan_inputs)
 export(score_forecasts)
 export(simulate_cases)
 importFrom(DescTools,BrierScore)
