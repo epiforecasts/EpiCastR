@@ -18,7 +18,7 @@
 #' @export
 #'
 
-make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of_forecast=NULL, fit_over=1000, timestep =1 ,  period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1) {
+make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of_forecast=NULL, do_score_forecast=TRUE, fit_over=1000, timestep =1 ,  period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1) {
 
 
   if (is.null(day_of_forecast)){
@@ -72,9 +72,15 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
   ds_ordered$risk_14_20 = round(rowSums(outs_14 >= 20)/dim(outs_14)[2],3)
   ds_ordered$risk_28_20 = round(rowSums(outs_28 >= 20)/dim(outs_28)[2],3)
 
-  prev_28 = 1. * (rowSums(timeseries_mat[,(day_of_forecast-28):day_of_forecast]) > 0)
 
   scores = list()
+
+
+  if (do_score_forecast == TRUE)  {
+
+  prev_28 = 1. * (rowSums(timeseries_mat[,(day_of_forecast-28):day_of_forecast]) > 0)
+
+
 
   score_7 = 1000.
   score_14 = 1000.
@@ -121,12 +127,15 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
     scores$null_28_log = log_prob_score(prev_28, timeseries_mat, 28, day_of_forecast)
   }
 
+  }
+
 
   casestodate = rowSums(timeseries_mat[,1:(day_of_forecast)])
   ds_ordered$casestodate = casestodate
 
 
-  list(risks = ds_ordered, scores = scores)
+
+  list(risks = ds_ordered, scores = scores, fit=FitModel$fit)
 
 
 }

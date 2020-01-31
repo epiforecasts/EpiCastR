@@ -9,6 +9,7 @@ make_forecast(
   shapes,
   identifier = "ADM2_NAME",
   day_of_forecast = NULL,
+  do_score_forecast = TRUE,
   fit_over = 1000,
   timestep = 1,
   period_and_lag = c(5, 7),
