@@ -71,12 +71,38 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c
     cases_to = timeseries
   }
 
+
+#  set_weights = function( day, days, mu, sig, FUN=EpiForecastsUtils::pweibull_with_mean_sd){
+#
+#    times = -(days-day)
+#    cumweib = sapply(X=times, FUN = function(X) {FUN(X, mu, sig)})
+#
+#    cumweib[1:(length(times)-1)] = cumweib[1:(length(times)-1)] - cumweib[2:length(times)]
+#
+#    weights = cumweib
+#
+#    weights
+#  }
+
+  if (period_and_lag[1] != 1000){
+
   rolledsums = t(rollapply(t(cases_to), period_and_lag[1], sum))
 
   summed_cases_offsett = cbind(matrix(0, nrow=R, ncol=sum(period_and_lag)), rolledsums)
   summed_cases_offsett = summed_cases_offsett[,1:Ti]
 
   cases_from = summed_cases_offsett
+  }
+
+  else if (period_and_lag[1] == 1000){
+   cases_from = c()
+
+   for(d in 1:Ti){
+     weights = set_weights(d, 1:Ti, 5,3)
+     cases_from = cbind(cases_from, colSums(weights * t(cases_to)))
+   }
+
+  }
 
 
   datalist = list(

@@ -40,7 +40,7 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
   ds_ordered = FitModel$ordered_shapes
 
 
-  ForecastCases = pump_posteriors_multi(FitModel$fit, FitModel$data)
+  ForecastCases = pump_posteriors_multi(FitModel$fit, FitModel$data, D=period_and_lag[1], Dprime=period_and_lag[2])
 
   print("forecasts made")
 

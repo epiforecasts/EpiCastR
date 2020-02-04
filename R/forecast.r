@@ -84,11 +84,25 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
   list(case_mat, W_ij)
 
+  if (Dprime != 1000) {
+
   for (i in 1:days) {                                                                         # run for "days" timesteps
     dvec = colSums(case_mat[(nrow(case_mat)-(D+Dprime)):(nrow(case_mat)-Dprime),])                              # sum over appropriate days
 
 
     case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
+  }
+
+  }
+
+  if (Dprime == 1000) {
+
+    for (i in 1:days) {         # run for "days" timesteps
+
+      weights = set_weights(d, 1:Ti, 5,3)
+      dvec = colSums(weights * case_mat)                              # sum over appropriate days
+      case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
+    }
 
   }
 
@@ -104,7 +118,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 #' @importFrom rstan extract
 #' @importFrom rlist list.append
 #' @importFrom utils tail
-pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) {
+pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7) {
 
   fitmat = rstan::extract(fit)
 
@@ -158,7 +172,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) 
       beta = betas[n]
       # Simulate forecast data VVV
       case_mat_forcast = simulate_cases(start=2, days=max(time_horizons), case_mat = t(data$N), cases_from = cases_from,
-                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat, adjmat = adjmat)
+                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat, adjmat = adjmat, D=D, Dprime=Dprime)
 
       # Return binary descriptor of the presence of cases VVV
 

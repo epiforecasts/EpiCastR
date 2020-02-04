@@ -4,7 +4,14 @@
 \alias{pump_posteriors_multi}
 \title{Pump posteriors}
 \usage{
-pump_posteriors_multi(fit, data, iters = 1, time_horizons = c(7, 14, 28))
+pump_posteriors_multi(
+  fit,
+  data,
+  iters = 1,
+  time_horizons = c(7, 14, 28),
+  D = 5,
+  Dprime = 7
+)
 }
 \arguments{
 \item{fit}{rstan fit object}

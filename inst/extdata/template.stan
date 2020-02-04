@@ -4,7 +4,7 @@ data {
   int<lower=0> T;         // Number of time steps
 
   int N[R, T];            // Number of cases
-  int Nsum[R, T]; 
+  real Nsum[R, T]; 
   int distrib;
   
   x_distmat_x             // matrix[R, R] MIJ;       
