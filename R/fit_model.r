@@ -43,7 +43,7 @@ fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), ide
 
   write(model, "../R_HA/model_running.stan")
 
-  pars = c()
+  pars = c("epsilon")
 
   if (1 %in% interactions){
     pars = append(pars, c("k", "gamma", "alpha_spat"))

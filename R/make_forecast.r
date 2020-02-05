@@ -48,25 +48,25 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
   outs_14 = ForecastCases[[2]]
   outs_28 = ForecastCases[[3]]
 
-  ds_ordered$risk_7 = round(rowSums(outs_7 > 0)/dim(outs_7)[2],3)
-  ds_ordered$risk_14 = round(rowSums(outs_14 > 0)/dim(outs_14)[2],3)
-  ds_ordered$risk_28 = round(rowSums(outs_28 > 0)/dim(outs_28)[2],3)
+  ds_ordered$risk_7 = round(rowSums(outs_7 > 99)/dim(outs_7)[2],3)
+  ds_ordered$risk_14 = round(rowSums(outs_14 > 99)/dim(outs_14)[2],3)
+  ds_ordered$risk_28 = round(rowSums(outs_28 > 99)/dim(outs_28)[2],3)
 
-  ds_ordered$risk_7_2 = round(rowSums(outs_7 >= 2)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_2 = round(rowSums(outs_14 >= 2)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_2 = round(rowSums(outs_28 >= 2)/dim(outs_28)[2],3)
+  ds_ordered$risk_7_2 = round(rowSums(outs_7 >= 200)/dim(outs_7)[2],3)
+  ds_ordered$risk_14_2 = round(rowSums(outs_14 >= 200)/dim(outs_14)[2],3)
+  ds_ordered$risk_28_2 = round(rowSums(outs_28 >= 200)/dim(outs_28)[2],3)
 
-  ds_ordered$risk_7_5 = round(rowSums(outs_7 >= 5)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_5 = round(rowSums(outs_14 >= 5)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_5 = round(rowSums(outs_28 >= 5)/dim(outs_28)[2],3)
+  ds_ordered$risk_7_5 = round(rowSums(outs_7 >= 500)/dim(outs_7)[2],3)
+  ds_ordered$risk_14_5 = round(rowSums(outs_14 >= 500)/dim(outs_14)[2],3)
+  ds_ordered$risk_28_5 = round(rowSums(outs_28 >= 500)/dim(outs_28)[2],3)
 
   ds_ordered$risk_7_6 = round(rowSums(outs_7 >= 6)/dim(outs_7)[2],3)
   ds_ordered$risk_14_6 = round(rowSums(outs_14 >= 6)/dim(outs_14)[2],3)
   ds_ordered$risk_28_6 = round(rowSums(outs_28 >= 6)/dim(outs_28)[2],3)
 
-  ds_ordered$risk_7_10 = round(rowSums(outs_7 >= 10)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_10 = round(rowSums(outs_14 >= 10)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_10 = round(rowSums(outs_28 >= 10)/dim(outs_28)[2],3)
+  ds_ordered$risk_7_10 = round(rowSums(outs_7 >= 1000)/dim(outs_7)[2],3)
+  ds_ordered$risk_14_10 = round(rowSums(outs_14 >= 1000)/dim(outs_14)[2],3)
+  ds_ordered$risk_28_10 = round(rowSums(outs_28 >= 1000)/dim(outs_28)[2],3)
 
   ds_ordered$risk_7_20 = round(rowSums(outs_7 >= 20)/dim(outs_7)[2],3)
   ds_ordered$risk_14_20 = round(rowSums(outs_14 >= 20)/dim(outs_14)[2],3)
@@ -135,7 +135,7 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
 
 
 
-  list(risks = ds_ordered, scores = scores, fit=FitModel$fit)
+  list(risks = ds_ordered, scores = scores, fit=FitModel$fit, case_counts=ForecastCases)
 
 
 }

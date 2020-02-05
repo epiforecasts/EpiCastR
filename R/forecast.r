@@ -84,7 +84,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
   list(case_mat, W_ij)
 
-  if (Dprime != 1000) {
+  if (D != 1000) {
 
   for (i in 1:days) {                                                                         # run for "days" timesteps
     dvec = colSums(case_mat[(nrow(case_mat)-(D+Dprime)):(nrow(case_mat)-Dprime),])                              # sum over appropriate days
@@ -95,11 +95,11 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
   }
 
-  if (Dprime == 1000) {
+  if (D == 1000) {
 
     for (i in 1:days) {         # run for "days" timesteps
-
-      weights = set_weights(d, 1:Ti, 5,3)
+      d = dim(case_mat)[2]
+      weights = set_weights(d, 1:d, 5,3)
       dvec = colSums(weights * case_mat)                              # sum over appropriate days
       case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
     }
