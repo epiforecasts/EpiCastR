@@ -118,7 +118,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 #' @importFrom rstan extract
 #' @importFrom rlist list.append
 #' @importFrom utils tail
-pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7) {
+pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7, close_down=0) {
 
   fitmat = rstan::extract(fit)
 
@@ -168,6 +168,12 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
       gamma = gammas[n]                             # set parameter values for realisation
       alpha_spat = alpha_spats[n]
       alpha_adj = alpha_adjs[n]
+
+      if (close_down == TRUE){
+        alpha_spat = 0.0
+        alpha_adj = 0.0
+      }
+
       k = ks[n]
       beta = betas[n]
       # Simulate forecast data VVV

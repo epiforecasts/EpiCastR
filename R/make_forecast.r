@@ -18,7 +18,7 @@
 #' @export
 #'
 
-make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of_forecast=NULL, do_score_forecast=TRUE, fit_over=1000, timestep =1 ,  period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1) {
+make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of_forecast=NULL, do_score_forecast=TRUE, fit_over=1000, timestep =1 ,  period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1, timehorizons=c(7, 14, 28), thresholds=c(1, 2, 5, 10, 20), close_down=FALSE) {
 
 
   if (is.null(day_of_forecast)){
@@ -39,8 +39,10 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
   print("model fitted")
   ds_ordered = FitModel$ordered_shapes
 
+  #print(class(ds_ordered))
 
-  ForecastCases = pump_posteriors_multi(FitModel$fit, FitModel$data, D=period_and_lag[1], Dprime=period_and_lag[2])
+
+  ForecastCases = pump_posteriors_multi(FitModel$fit, FitModel$data, D=period_and_lag[1], Dprime=period_and_lag[2], time_horizons=timehorizons, close_down=close_down)
 
   print("forecasts made")
 
@@ -48,29 +50,37 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
   outs_14 = ForecastCases[[2]]
   outs_28 = ForecastCases[[3]]
 
-  ds_ordered$risk_7 = round(rowSums(outs_7 > 99)/dim(outs_7)[2],3)
-  ds_ordered$risk_14 = round(rowSums(outs_14 > 99)/dim(outs_14)[2],3)
-  ds_ordered$risk_28 = round(rowSums(outs_28 > 99)/dim(outs_28)[2],3)
+  for (i in 1:length(timehorizons)){
+    for (h in thresholds){
+      risks = round(rowSums(ForecastCases[[i]] >= h)/dim(ForecastCases[[i]])[2],3)
+      ds_ordered[[paste0("risk_", as.character(timehorizons[i]), '_', as.character(h))]] = risks
+      #print(class(ds_ordered))
+      }
+  }
 
-  ds_ordered$risk_7_2 = round(rowSums(outs_7 >= 200)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_2 = round(rowSums(outs_14 >= 200)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_2 = round(rowSums(outs_28 >= 200)/dim(outs_28)[2],3)
 
-  ds_ordered$risk_7_5 = round(rowSums(outs_7 >= 500)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_5 = round(rowSums(outs_14 >= 500)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_5 = round(rowSums(outs_28 >= 500)/dim(outs_28)[2],3)
-
-  ds_ordered$risk_7_6 = round(rowSums(outs_7 >= 6)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_6 = round(rowSums(outs_14 >= 6)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_6 = round(rowSums(outs_28 >= 6)/dim(outs_28)[2],3)
-
-  ds_ordered$risk_7_10 = round(rowSums(outs_7 >= 1000)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_10 = round(rowSums(outs_14 >= 1000)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_10 = round(rowSums(outs_28 >= 1000)/dim(outs_28)[2],3)
-
-  ds_ordered$risk_7_20 = round(rowSums(outs_7 >= 20)/dim(outs_7)[2],3)
-  ds_ordered$risk_14_20 = round(rowSums(outs_14 >= 20)/dim(outs_14)[2],3)
-  ds_ordered$risk_28_20 = round(rowSums(outs_28 >= 20)/dim(outs_28)[2],3)
+#  ds_ordered$risk_7 = round(rowSums(outs_7 > 99)/dim(outs_7)[2],3)
+#  ds_ordered$risk_14 = round(rowSums(outs_14 > 99)/dim(outs_14)[2],3)
+#  ds_ordered$risk_28 = round(rowSums(outs_28 > 99)/dim(outs_28)[2],3)
+#
+#  ds_ordered$risk_7_2 = round(rowSums(outs_7 >= 200)/dim(outs_7)[2],3)
+#  ds_ordered$risk_14_2 = round(rowSums(outs_14 >= 200)/dim(outs_14)[2],3)
+#  ds_ordered$risk_28_2 = round(rowSums(outs_28 >= 200)/dim(outs_28)[2],3)
+#
+#  ds_ordered$risk_7_5 = round(rowSums(outs_7 >= 500)/dim(outs_7)[2],3)
+#  ds_ordered$risk_14_5 = round(rowSums(outs_14 >= 500)/dim(outs_14)[2],3)
+#  ds_ordered$risk_28_5 = round(rowSums(outs_28 >= 500)/dim(outs_28)[2],3)
+#
+#  ds_ordered$risk_7_6 = round(rowSums(outs_7 >= 6)/dim(outs_7)[2],3)
+#  ds_ordered$risk_14_6 = round(rowSums(outs_14 >= 6)/dim(outs_14)[2],3)
+#  ds_ordered$risk_28_6 = round(rowSums(outs_28 >= 6)/dim(outs_28)[2],3)
+#  #ds_ordered$risk_7_10 = round(rowSums(outs_7 >= 1000)/dim(outs_7)[2],3)
+#  #ds_ordered$risk_14_10 = round(rowSums(outs_14 >= 1000)/dim(outs_14)[2],3)
+#  #ds_ordered$risk_28_10 = round(rowSums(outs_28 >= 1000)/dim(outs_28)[2],3)
+##
+  #ds_ordered$risk_7_20 = round(rowSums(outs_7 >= 20)/dim(outs_7)[2],3)
+  #ds_ordered$risk_14_20 = round(rowSums(outs_14 >= 20)/dim(outs_14)[2],3)
+  #ds_ordered$risk_28_20 = round(rowSums(outs_28 >= 20)/dim(outs_28)[2],3)
 
 
   scores = list()

@@ -10,7 +10,8 @@ pump_posteriors_multi(
   iters = 1,
   time_horizons = c(7, 14, 28),
   D = 5,
-  Dprime = 7
+  Dprime = 7,
+  close_down = 0
 )
 }
 \arguments{
