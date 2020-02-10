@@ -4,7 +4,13 @@
 \alias{score_forecasts}
 \title{Score forecasts}
 \usage{
-score_forecasts(risk_values, diff_cases, timehorizon, day_of_forecast)
+score_forecasts(
+  risk_values,
+  diff_cases,
+  timehorizon,
+  day_of_forecast,
+  threshold = 1
+)
 }
 \arguments{
 \item{risk_values}{tbc}

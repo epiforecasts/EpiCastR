@@ -5,9 +5,9 @@
 #' @param day_of_forecast tbc
 #' @importFrom DescTools BrierScore
 #' @export
-score_forecasts= function(risk_values, diff_cases, timehorizon, day_of_forecast) {
+score_forecasts= function(risk_values, diff_cases, timehorizon, day_of_forecast, threshold=1) {
 
-  wherecaseswere = 1*(rowSums(diff_cases[,day_of_forecast:(day_of_forecast+timehorizon)]) > 0)
+  wherecaseswere = 1*(rowSums(diff_cases[,day_of_forecast:(day_of_forecast+timehorizon)]) >= threshold)
   score = BrierScore(risk_values, wherecaseswere)
 
   score
@@ -15,10 +15,10 @@ score_forecasts= function(risk_values, diff_cases, timehorizon, day_of_forecast)
 
 
 
-log_prob_score = function(risk_values, diff_cases, timehorizon, day_of_forecast) {
+log_prob_score = function(risk_values, diff_cases, timehorizon, day_of_forecast, threshold=1) {
 
 
-  wherecaseswere = 1*(rowSums(diff_cases[,day_of_forecast:(day_of_forecast+timehorizon)]) > 0)
+  wherecaseswere = 1*(rowSums(diff_cases[,day_of_forecast:(day_of_forecast+timehorizon)]) > threshold)
 
   log_probs = wherecaseswere * log(abs(risk_values-1e-10)) + ((1 - wherecaseswere ) * log(1 - (abs(risk_values-1e-10))))
   sum_log_probs = sum(log_probs)

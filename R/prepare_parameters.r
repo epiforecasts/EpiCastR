@@ -98,7 +98,7 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c
    cases_from = c()
 
    for(d in 1:Ti){
-     weights = set_weights(d, 1:Ti, 5,3)
+     weights = set_weights(d, 1:Ti, 8.5,2.6)
      cases_from = cbind(cases_from, colSums(weights * t(cases_to)))
    }
 

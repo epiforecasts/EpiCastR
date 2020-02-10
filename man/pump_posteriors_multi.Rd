@@ -11,7 +11,7 @@ pump_posteriors_multi(
   time_horizons = c(7, 14, 28),
   D = 5,
   Dprime = 7,
-  close_down = 0
+  close_down = FALSE
 )
 }
 \arguments{

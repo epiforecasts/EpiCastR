@@ -99,7 +99,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
     for (i in 1:days) {         # run for "days" timesteps
       d = dim(case_mat)[2]
-      weights = set_weights(d, 1:d, 5,3)
+      weights = set_weights(d, 1:d, 8.5,2.6)
       dvec = colSums(weights * case_mat)                              # sum over appropriate days
       case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
     }
@@ -118,7 +118,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 #' @importFrom rstan extract
 #' @importFrom rlist list.append
 #' @importFrom utils tail
-pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7, close_down=0) {
+pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7, close_down=FALSE) {
 
   fitmat = rstan::extract(fit)
 
