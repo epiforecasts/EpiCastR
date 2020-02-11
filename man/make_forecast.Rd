@@ -19,7 +19,8 @@ make_forecast(
   chains = 1,
   iter = 100,
   warmup = 50,
-  cores = 1
+  cores = 1,
+  con_mat = NULL
 )
 }
 \arguments{

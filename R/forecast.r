@@ -30,7 +30,8 @@ fix_inf <- function(x){
 #' @importFrom stats rpois rnbinom rexp
 #' @export
 #'
-simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03, k=2.5, beta=1., D=5, Dprime=7, distrib=0, R = 0, dist_mat=0, popmat=0, adjmat=0)
+simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03,
+                            k=2.5, beta=1., D=5, Dprime=7, distrib=0, R = 0, dist_mat=0, popmat=0, adjmat=0, con_mat=0)
 
 {
   W_ij = popmat / (dist_mat^k)                                                                # calculate and normalise gravity kernal matrix
@@ -88,7 +89,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
     dvec = colSums(case_mat[(nrow(case_mat)-(D+Dprime)):(nrow(case_mat)-Dprime),])                              # sum over appropriate days
 
 
-    case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
+    case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec + alpha_con * con_mat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
 
   }
 
@@ -134,6 +135,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) 
   dist_mat = data$MIJ
   popmat=data$popmat
   adjmat = data$adjmat
+  con_mat = data$con_mat
 
   case_mat_int = data$N
 
@@ -158,7 +160,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) 
       beta = betas[n]
       # Simulate forecast data VVV
       case_mat_forcast = simulate_cases(start=2, days=max(time_horizons), case_mat = t(data$N), cases_from = cases_from,
-                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat, adjmat = adjmat)
+                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat, adjmat = adjmat, con_mat=con_mat)
 
       # Return binary descriptor of the presence of cases VVV
 

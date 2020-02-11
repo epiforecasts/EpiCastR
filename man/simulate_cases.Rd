@@ -20,7 +20,8 @@ simulate_cases(
   R = 0,
   dist_mat = 0,
   popmat = 0,
-  adjmat = 0
+  adjmat = 0,
+  con_mat = 0
 )
 }
 \arguments{
