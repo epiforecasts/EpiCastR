@@ -85,11 +85,25 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
   list(case_mat, W_ij)
 
+  if (D != 1000) {
+
   for (i in 1:days) {                                                                         # run for "days" timesteps
     dvec = colSums(case_mat[(nrow(case_mat)-(D+Dprime)):(nrow(case_mat)-Dprime),])                              # sum over appropriate days
 
-
     case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec + alpha_con * con_mat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
+  }
+
+  }
+
+  if (D == 1000) {
+
+    for (i in 1:days) {         # run for "days" timesteps
+      d = dim(case_mat)[2]
+      weights = set_weights(d, 1:d, 8.5,2.6)
+      dvec = colSums(weights * case_mat)                              # sum over appropriate days
+      case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec + alpha_con * con_mat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
+    }
+
 
   }
 
@@ -105,7 +119,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 #' @importFrom rstan extract
 #' @importFrom rlist list.append
 #' @importFrom utils tail
-pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) {
+pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7, close_down=FALSE) {
 
   fitmat = rstan::extract(fit)
 
@@ -156,11 +170,19 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28)) 
       gamma = gammas[n]                             # set parameter values for realisation
       alpha_spat = alpha_spats[n]
       alpha_adj = alpha_adjs[n]
+
+      if (close_down == TRUE){
+        alpha_spat = 0.0
+        alpha_adj = 0.0
+      }
+
       k = ks[n]
       beta = betas[n]
       # Simulate forecast data VVV
       case_mat_forcast = simulate_cases(start=2, days=max(time_horizons), case_mat = t(data$N), cases_from = cases_from,
-                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, dist_mat = dist_mat, popmat=popmat, adjmat = adjmat, con_mat=con_mat)
+                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, 
+                                        dist_mat = dist_mat, popmat=popmat, adjmat = adjmat, con_mat=con_mat, D=D, Dprime=Dprime)
+
 
       # Return binary descriptor of the presence of cases VVV
 
