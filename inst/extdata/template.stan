@@ -4,13 +4,15 @@ data {
   int<lower=0> T;         // Number of time steps
 
   int N[R, T];            // Number of cases
+
   real Nsum[R, T]; 
+
   int distrib;
-  
-  x_distmat_x             // matrix[R, R] MIJ;       
-  x_popmat_x              // matrix[R, R] popmat;  
-  x_adjmat_x              // matrix[R, R] adjmat; 
-  
+
+  x_distmat_x             // matrix[R, R] MIJ;
+  x_popmat_x              // matrix[R, R] popmat;
+  x_adjmat_x              // matrix[R, R] adjmat;
+  x_con_mat_x
 }
 
 parameters {
@@ -18,6 +20,8 @@ parameters {
   x_overdispersion_x             //real<lower=0> beta;
   x_spat_int_par_x               //real<lower=0> alpha_spat;          //spatial interaction
   x_adj_par_x                    //real<lower=0> alpha_adj;      //adjacency term
+  x_priors_con_x
+  x_con_par_x
   real<lower=0> epsilon;         //error
   x_power_for_dist_x              //real<lower=0> k;            //distance exponent
 }
@@ -25,12 +29,12 @@ parameters {
 transformed parameters {
 
   matrix[R, T] foi;             //force of incection matrix
-  
+
   x_gravity_law_x
-  
-  
+
+
   // calculate force of infection matrix
-  foi = (diag_matrix(rep_vector(gamma, R)) x_gravity_interaction_x x_adjacency_interaction_x) *
+  foi = (diag_matrix(rep_vector(gamma, R)) x_gravity_interaction_x x_adjacency_interaction_x x_con_mat_interaction_x) *
         to_matrix(Nsum) +
         epsilon;
 }
@@ -41,11 +45,11 @@ transformed parameters {
 model {
   x_priors_grav_x   //gamma ~ gamma(1, 1); alpha_spat ~ gamma(1, 1); k ~ normal(1, 1);
   x_priors_adj_x    //alpha_adj  ~ gamma(1, 1);
-  
+
   //tau1 ~ normal(1, 1);
   //tau2 ~ normal(1, 1);
-  
-  
+
+
   x_priors_over_x    //  beta ~ gamma(1, 1);
 
   for (t in 2:T) {
@@ -73,7 +77,7 @@ generated quantities {
             }
         }
     }
-  
+
   if (distrib == 0){
     for (i in 1:R) {
       for (t in 2:T) {

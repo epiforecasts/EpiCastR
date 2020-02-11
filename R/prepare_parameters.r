@@ -15,7 +15,7 @@
 #'
 #' @export
 prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), identifier="ADM2_NAME",
-                                popid='totpop2019', interaction=c(1), distrib=0){
+                                popid='totpop2019', interaction=c(1), distrib=0, con_mat=NULL){
 
 
 
@@ -62,6 +62,15 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c
           adjmat = nb2mat(nbsdrc, zero.policy=TRUE)
         } else {
           adjmat = matrix(0., ncol=R, nrow=R)
+        }
+
+  # SET PRECALCULATED CONNECTIVITY MATRIX
+
+        if (6 %in% interaction){
+          con_mat = con_mat
+        }
+        else{
+          con_mat = matrix(0., ncol=R, nrow=R)
         }
 
 
@@ -112,6 +121,7 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c
     MIJ = distmat/1000.0,
     popmat = popmat,
     adjmat = adjmat,
+    con_mat = con_mat,
     N = cases_to,
     Nsum = cases_from,
     distrib = distrib

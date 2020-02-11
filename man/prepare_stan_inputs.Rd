@@ -12,7 +12,8 @@ prepare_stan_inputs(
   identifier = "ADM2_NAME",
   popid = "totpop2019",
   interaction = c(1),
-  distrib = 0
+  distrib = 0,
+  con_mat = NULL
 )
 }
 \arguments{

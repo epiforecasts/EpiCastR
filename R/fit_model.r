@@ -21,10 +21,11 @@
 
 
 fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), identifier="ADM2_NAME",
-                      popid='totpop2019', interaction=c(1), distrib=0, model_path=system.file("extdata/template.stan",package = "EpiCastR"), fit_meth = 'vb', chains=1, iter=100, warmup=50, cores=1) {
+                      popid='totpop2019', interaction=c(1), distrib=0, model_path=system.file("extdata/template.stan",package = "EpiCastR"),
+                      fit_meth = 'vb', chains=1, iter=100, warmup=50, cores=1, con_mat=NULL) {
 
   params = prepare_stan_inputs(timeseries, shapes, timestep, period_and_lag, identifier,
-                                 popid, interaction, distrib)
+                                 popid, interaction, distrib, con_mat=NULL)
 
   datalist = params[[1]]
   ordered_shapes = params[[2]]
@@ -63,6 +64,10 @@ fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), ide
 
   if (5 %in% interactions){
     pars = append(pars, c("beta"))
+  }
+
+  if (5 %in% interactions){
+    pars = append(pars, c("alpha_con"))
   }
 
   pars = unique(pars)
