@@ -20,10 +20,9 @@ make_forecast(
   iter = 100,
   warmup = 50,
   cores = 1,
-
   timehorizons = c(7, 14, 28),
   thresholds = c(1, 2, 5, 10, 20),
-  close_down = FALSE
+  close_down = FALSE,
   con_mat = NULL
 )
 }
