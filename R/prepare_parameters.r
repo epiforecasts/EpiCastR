@@ -52,7 +52,7 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag=c
           popmat = matrix(1, ncol=R, nrow=R)      # set population matrix for numerator of grav model
           popmat[is.na(popmat)] = 1.
         } else{
-          popmat = matrix(0., ncol=R, nrow=R)      # set population matrix for numerator of grav model
+          popmat = matrix(1., ncol=R, nrow=R)      # set population matrix for numerator of grav model
         }
 
   # SET ADJACENCY INTERACTION

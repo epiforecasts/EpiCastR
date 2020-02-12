@@ -35,7 +35,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
 {
 
-  if(sum(popmat) != 0){
+  if(sum(popmat != 1) != 0){
 
   W_ij = popmat / (dist_mat^k)                                                                # calculate and normalise gravity kernal matrix
   diag(W_ij) = 0.
@@ -48,11 +48,11 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
   }
   else{
 
-    W_ij = matrix(0, nrow=R, ncol=R)
+    W_ij = matrix(1, nrow=R, ncol=R)
 
   }
 
-
+  W_ijouts <<- W_ij
 
   #
   # initiate simulation model from 0: random selection of HZs, 1: Man(first hz infected), 2: Reported case data (case_mat fed to function)
@@ -111,6 +111,10 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
     for (i in 1:days) {         # run for "days" timesteps
       d = dim(case_mat)[2]
       weights = set_weights(d, 1:d, 8.5,2.6)
+
+      casematout <<- case_mat
+      weightsout <<- weights
+
       dvec = colSums(weights * case_mat)                              # sum over appropriate days
       case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec + alpha_con * con_mat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat
     }
@@ -145,7 +149,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
 
   if (!is.null(fitmat$k)){
     ks = fitmat$k  } else {
-      ks = rep(0,length(fitmat[[1]]))
+      ks = rep(1,length(fitmat[[1]]))
                   }                                      # extract the samples for gamma
 
   if (!is.null(fitmat$alpha_adj)){
@@ -161,7 +165,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
 
   R = data$R
   dist_mat = data$MIJ
-  popmat=data$popmat
+  popmat= data$popmat
   adjmat = data$adjmat
   con_mat = data$con_mat
 
@@ -190,6 +194,8 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
         alpha_spat = 0.0
         alpha_adj = 0.0
       }
+
+      casematout1<<-t(data$N)
 
       k = ks[n]
       beta = betas[n]
