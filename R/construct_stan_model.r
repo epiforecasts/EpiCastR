@@ -13,7 +13,7 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
   x_adjmat_x = c("x_adjmat_x","matrix[R, R] adjmat;") ,
   x_spat_int_par_x = c("x_spat_int_par_x", "real<lower=0> alpha_spat; "),
   x_adj_par_x = c("x_adj_par_x", "real<lower=0> alpha_adj; "),
-  x_con_par_x = c("x_adj_par_x", "real<lower=0> alpha_con; "),
+  x_con_par_x = c("x_con_par_x", "real<lower=0> alpha_con; "),
   x_power_for_dist_x = c("x_power_for_dist_x", "real<lower=0> k; "),
   x_con_mat_x = c("x_con_mat_x", "matrix[R, R] con_mat;"),
 
@@ -76,6 +76,7 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
    please_include = c()
 
    for (item in interactions){
+     print(item)
 
      please_include = append(please_include, to_include[[item]])
 

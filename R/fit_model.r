@@ -66,7 +66,7 @@ fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), ide
     pars = append(pars, c("beta"))
   }
 
-  if (7 %in% interactions){
+  if (6 %in% interactions){
     pars = append(pars, c("alpha_con"))
   }
 

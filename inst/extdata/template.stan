@@ -5,7 +5,7 @@ data {
 
   int N[R, T];            // Number of cases
 
-  real Nsum[R, T]; 
+  real Nsum[R, T];
 
   int distrib;
 
@@ -20,7 +20,6 @@ parameters {
   x_overdispersion_x             //real<lower=0> beta;
   x_spat_int_par_x               //real<lower=0> alpha_spat;          //spatial interaction
   x_adj_par_x                    //real<lower=0> alpha_adj;      //adjacency term
-  x_priors_con_x
   x_con_par_x
   real<lower=0> epsilon;         //error
   x_power_for_dist_x              //real<lower=0> k;            //distance exponent
@@ -45,6 +44,8 @@ transformed parameters {
 model {
   x_priors_grav_x   //gamma ~ gamma(1, 1); alpha_spat ~ gamma(1, 1); k ~ normal(1, 1);
   x_priors_adj_x    //alpha_adj  ~ gamma(1, 1);
+
+  x_priors_con_x
 
   //tau1 ~ normal(1, 1);
   //tau2 ~ normal(1, 1);
