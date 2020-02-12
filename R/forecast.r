@@ -34,6 +34,9 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
                             k=2.5, beta=1., D=5, Dprime=7,  distrib=0, R = 0, dist_mat=0, popmat=0, adjmat=0, con_mat=0)
 
 {
+
+  if(sum(popmat) != 0){
+
   W_ij = popmat / (dist_mat^k)                                                                # calculate and normalise gravity kernal matrix
   diag(W_ij) = 0.
 
@@ -42,6 +45,14 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
 
   W_ij = fix_nan(W_ij )
+  }
+  else{
+
+    W_ij = matrix(0, nrow=R, ncol=R)
+
+  }
+
+
 
   #
   # initiate simulation model from 0: random selection of HZs, 1: Man(first hz infected), 2: Reported case data (case_mat fed to function)
@@ -83,11 +94,11 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 
 
 
-  list(case_mat, W_ij)
 
   if (D != 1000) {
 
-  for (i in 1:days) {                                                                         # run for "days" timesteps
+  for (i in 1:days) {
+    # run for "days" timesteps
     dvec = colSums(case_mat[(nrow(case_mat)-(D+Dprime)):(nrow(case_mat)-Dprime),])                              # sum over appropriate days
 
     case_mat = rbind(case_mat, sapply(gamma * dvec + alpha_spat * W_ij %*% dvec + alpha_adj * adjmat %*% dvec + alpha_con * con_mat %*% dvec , sampler)) # add timestep of cases sampled at rate to case_mat

@@ -25,7 +25,7 @@ fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), ide
                       fit_meth = 'vb', chains=1, iter=100, warmup=50, cores=1, con_mat=NULL) {
 
   params = prepare_stan_inputs(timeseries, shapes, timestep, period_and_lag, identifier,
-                                 popid, interaction, distrib, con_mat=NULL)
+                                 popid, interaction, distrib, con_mat=con_mat)
 
   datalist = params[[1]]
   ordered_shapes = params[[2]]
