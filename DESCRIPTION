@@ -2,8 +2,10 @@ Package: EpiCastR
 Type: Package
 Title: Epidemic forecasting - spatial
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: James Munday <james.munday@lshtm.ac.uk>
+Authors@R: c(
+    person("James", "Munday", 
+           email = "james.munday@lshtm.ac.uk", 
+           role = c("aut", "cre")))
 Description: Takes a shapefile and a matrix of cases (regions x timestep) and performs a spatial forecast with options for spatial interaction rules.
 License: GPL-3
 Imports:
