@@ -115,7 +115,11 @@ simulate_cases <-  function(start = 0, days = 30, case_mat = NULL, cases_from = 
       casematout <<- case_mat
       weightsout <<- weights
       ## Sum over appropriate days
-      dvec = colSums(weights * case_mat)
+      dvec = colSums(weights * case_mat)                       
+
+      ## Needs to be refactored
+      dvecout <<- dvec
+      con_matout <<- con_mat
     }
 
     ## Add timestep of cases sampled at rate to case_mat
@@ -213,7 +217,8 @@ pump_posteriors_multi <- function(fit, data, iters = 1, time_horizons = c(7,14,2
       }
 
       ## Change
-      casematout1 <<- t(data$N)
+      casematout1<<-t(data$N)
+      dataout <<- data
 
       k = ks[n]
       beta = betas[n]

@@ -19,7 +19,7 @@ fit_model(
   iter = 100,
   warmup = 50,
   cores = 1,
-  con_mat = NULL
+  con_mat = 0
 )
 }
 \arguments{

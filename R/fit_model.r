@@ -23,10 +23,11 @@
 
 
 
+
 fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
                       identifier = "ADM2_NAME", popid = 'totpop2019', interaction = c(1), distrib = 0,
                       base_model_path = NULL, final_model_path = NULL,
-                      fit_meth = 'vb', chains = 1, iter=100, warmup=50, cores = 1, con_mat = NULL) {
+                      fit_meth = 'vb', chains = 1, iter=100, warmup=50, cores = 1, con_mat = 0) {
 
   ## Set default model path to be within package
   if (is.null(base_model_path)) {
@@ -38,9 +39,10 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
     final_model_path <- tempdir()
   }
 
+
   ## Prepare stan inputs based on options
   params = prepare_stan_inputs(timeseries, shapes, timestep, period_and_lag, identifier,
-                                 popid, interaction, distrib, con_mat=con_mat)
+                                 popid, interaction, distrib, con_mat = con_mat)
 
   ## Extract data list and shapefile
   datalist = params[[1]]
@@ -70,7 +72,8 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
   ## Add additional interaction parameters
   ## Numeric structure makes this hard to understand
   ## Is this possible to vectorise?
-  pars = c("epsilon")
+  pars = c()
+
 
   if (1 %in% interactions){
     pars = append(pars, c("k", "gamma", "alpha_spat"))
@@ -93,7 +96,7 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
   }
 
   if (6 %in% interactions){
-    pars = append(pars, c("alpha_con"))
+    pars = append(pars, c( "gamma", "alpha_con"))
   }
 
   pars = unique(pars)
