@@ -241,7 +241,6 @@ pump_posteriors_multi <- function(fit, data, iters = 1, time_horizons = c(7,14,2
     all_outs[[i]] = t(tail(t(all_outs[[i]]), -2))
   }
 
-
   return(all_outs)
 }
 
