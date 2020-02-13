@@ -108,6 +108,6 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
 
    }
 
-   return(mode)l
+   return(mode)
 
   }
