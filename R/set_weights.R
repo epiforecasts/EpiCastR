@@ -1,5 +1,6 @@
 #' set_weights
 #'
+#' @description What is happening here
 #' @importFrom EpiForecastsUtils pweibull_with_mean_sd
 #' @param timeseries a matrix of timeseries of cases for each geographical region [region x timestep]
 #' @param shapes sf or sp object with polygon geometry of regions and population size
