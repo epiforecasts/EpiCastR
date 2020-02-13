@@ -1,4 +1,6 @@
 #' Fit stan model
+#'
+#' @description What does this function do?
 #' @param timeseries a matrix of timeseries of cases for each geographical region [region x timestep]
 #' @param shapes sf or sp object with polygon geometry of regions and population size
 #' @param timestep timestep to use in fit (relative to the "timeseries"" timestep)
@@ -20,10 +22,16 @@
 
 
 
-fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), identifier="ADM2_NAME",
-                      popid='totpop2019', interaction=c(1), distrib=0, model_path=system.file("extdata/template.stan",package = "EpiCastR"),
-                      fit_meth = 'vb', chains=1, iter=100, warmup=50, cores=1, con_mat=NULL) {
+fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
+                      identifier = "ADM2_NAME", popid = 'totpop2019', interaction = c(1), distrib = 0,
+                      model_path = NULL,
+                      fit_meth = 'vb', chains = 1, iter=100, warmup=50, cores = 1, con_mat = NULL) {
 
+
+  if (is.null(model_path)) {
+    model_path <- system.file("extdata/template.stan",package = "EpiCastR")
+  }
+  ## Prepare stan inputs based on options
   params = prepare_stan_inputs(timeseries, shapes, timestep, period_and_lag, identifier,
                                  popid, interaction, distrib, con_mat=con_mat)
 

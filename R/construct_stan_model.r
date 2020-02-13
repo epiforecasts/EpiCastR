@@ -1,11 +1,11 @@
 #' Construct stan model
+#' @description What does this function do?
 #' @param model_path path to stan template to build model
 #' @param interactions vector with numbers to indicate the types of interaction to include in the model: 1. Gravity model. 2. Gravity model with population density. 3. Power law (no population info). 4. Adjacency model.
 #' @export
 construct_stan_model <- function(model_path, interactions=c(1,4))
 
 {
-
 
   includeparam = list(
   x_distmat_x = c("x_distmat_x", "matrix[R, R] MIJ; "),
@@ -18,7 +18,7 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
   x_con_mat_x = c("x_con_mat_x", "matrix[R, R] con_mat;"),
 
 
-
+  ## Define gravity model
   x_gravity_law_x = c("x_gravity_law_x",
 
     "real s[2];                    //to offer 1 or grav
@@ -38,12 +38,15 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
         space ./= rep_matrix(rep_row_vector(1, R) * space, R);
 
       "),
+  ##
   x_gravity_interaction_x =  c("x_gravity_interaction_x" , "+  alpha_spat * space"),
   x_adjacency_interaction_x = c("x_adjacency_interaction_x", "+  alpha_adj * adjmat" ),
   x_con_mat_interaction_x = c("x_con_mat_interaction_x", "+  alpha_con * con_mat" ),
 
+  ## Define prior for over dispersion
   x_overdispersion_x = c("x_overdispersion_x", "real<lower=0> beta;"),
 
+  ## Define priors for gravity model
   x_priors_grav_x = c("x_priors_grav_x",
   "gamma ~ gamma(1, 1);
    alpha_spat ~ gamma(1, 1);
@@ -72,7 +75,7 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
     )
 
 
-
+   ## Check for missing options
    please_include = c()
 
    for (item in interactions){
@@ -105,6 +108,6 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
 
    }
 
-   model
-#
+   return(mode)l
+
   }
