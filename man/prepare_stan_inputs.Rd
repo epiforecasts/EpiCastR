@@ -34,5 +34,5 @@ prepare_stan_inputs(
 \item{distrib}{poisson = 0, negative binomial = 1}
 }
 \description{
-Prepare stan inputs
+What does this do?
 }

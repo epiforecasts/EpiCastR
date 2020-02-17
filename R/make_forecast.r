@@ -15,6 +15,7 @@
 #' @param cores number of cores to use
 #' @param iter number of iterations per chain
 #' @param warmup number of iterations in warmup phase
+#' @inheritParams fit_model
 #' @export
 #'
 
@@ -22,7 +23,7 @@
 make_forecast <- function(timeseries_mat, shapes, identifier = 'ADM2_NAME', day_of_forecast = NULL, do_score_forecast = TRUE,
                           fit_over = 1000, timestep = 1 , period_and_lag = c(5,7) ,interaction = c(1), distrib = 1, fit_meth='vb',
                           chains = 1, iter = 100, warmup = 50, cores = 1, timehorizons = c(7, 14, 28), thresholds = c(1, 2, 5, 10, 20),
-                          close_down = FALSE, con_mat = NULL) {
+                          close_down = FALSE, con_mat = NULL, compiled_model = NULL) {
 
 
   message(do_score_forecast)
@@ -43,7 +44,7 @@ make_forecast <- function(timeseries_mat, shapes, identifier = 'ADM2_NAME', day_
   ## Change FitModel to match naming scheme
   FitModel = fit_model(diff_cases_slice, shapes, distrib=distrib, interaction = interaction, fit_meth = fit_meth,
                        period_and_lag = period_and_lag,  chains = chains, iter = iter, warmup = warmup, cores = cores,
-                       identifier = identifier, con_mat = con_mat)
+                       identifier = identifier, con_mat = con_mat, compiled_model = compiled_model)
 
   message("Model fitted")
   ds_ordered = FitModel$ordered_shapes
