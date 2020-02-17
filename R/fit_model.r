@@ -51,17 +51,18 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
   ordered_shapes = params[[2]]
 
 
-  if (!is.null(compiled_model)) {
-    # Add interactions? - this would be much better as a character string of the options rather than a very cryptic number
-    if (distrib == 1){
+  # Add interactions? - this would be much better as a character string of the options rather than a very cryptic number
+  if (distrib == 1){
 
-      interactions = append(interaction, c(5))
+    interactions = append(interaction, c(5))
 
-    } else {
+  } else {
 
-      interactions = interaction
+    interactions = interaction
 
-    }
+  }
+
+  if (is.null(compiled_model)) {
 
     ## Construct the stan model based on the template and specified interactions
     model = construct_stan_model(base_model_path, interactions)
