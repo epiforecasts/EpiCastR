@@ -75,7 +75,18 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag =
 
   ## SET PRECALCULATED CONNECTIVITY MATRIX
         if (6 %in% interaction){
-          con_mat = con_mat
+          if (is.list(con_mat)){
+            con_mat_multi = con_mat
+            con_mat = matrix(0., ncol=R, nrow=R)
+          }
+          else if (is.matrix(con_mat)){
+            con_mat = con_mat
+            con_mat_multi = NULL
+          }
+          else {
+            print('Warning: interaction matrix must be matrix or list of matices - not using predefined interaction matrix')
+            con_mat = matrix(0., ncol=R, nrow=R)
+          }
         }
         else{
           con_mat = matrix(0., ncol=R, nrow=R)
@@ -108,7 +119,6 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag =
 
   }
 
-
   datalist = list(
     R = R,
     T = Ti,
@@ -120,6 +130,20 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag =
     Nsum = cases_from,
     distrib = distrib
            )
+  if(!is.null(con_mat_multi)){
+    if(length(con_mat_multi) == lenght(con_mat_times)){
+      con_mat_times = append(con_mat_times, Ti)
+      for(i in 1:length(con_mat_multi)){
+        datalist[paste0('con_mat_', as.character(i))] = con_mat_multi[i]
+        datalist[paste0("timevec_", s.character(i))] = rep(0, Ti)
+        datalist[paste0("timevec_", s.character(i))][con_mat_times[i]:con_mat_times[i+1]] = 1
+      }
+    }
+    else{
+      print('Incorrect no. times - using first matrix only')
+      datalist['con_mat'] = con_mat_multi[1]
+    }
+  }
 
   return(list(datalist, shapes_ordered))
 }
