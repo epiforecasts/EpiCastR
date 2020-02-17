@@ -59,5 +59,5 @@ simulate_cases(
 \item{adjmat}{tbc}
 }
 \description{
-Simulate cases
+What does this function do?
 }
