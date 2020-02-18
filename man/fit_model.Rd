@@ -15,7 +15,10 @@ fit_model(
   distrib = 0,
   base_model_path = NULL,
   final_model_path = NULL,
+<<<<<<< HEAD
   compiled_model = NULL,
+=======
+>>>>>>> doc and build
   fit_meth = "vb",
   chains = 1,
   iter = 100,
@@ -45,8 +48,10 @@ fit_model(
 
 \item{final_model_path}{path to final stan model. If not supplied a temporary directory is used.}
 
+
 \item{compiled_model}{A stan model object. If running multiple analyses using the same model (i.e with
 all model settings the same) then the same compiled stan model may be used to reduce compile times.}
+
 
 \item{fit_meth}{variational bayes 'vb', Hamiltonian MC 'nuts'}
 

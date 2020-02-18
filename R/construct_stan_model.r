@@ -75,6 +75,13 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
     )
 
 
+  foi_template = "foi = (diag_matrix(rep_vector(gamma, R)) x_gravity_interaction_x x_adjacency_interaction_x x_con_mat_interaction_x) *
+    to_matrix(Nsum) +
+    epsilon;"
+
+  foi_term =
+
+
    ## Check for missing options
    please_include = c()
 

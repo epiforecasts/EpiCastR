@@ -15,7 +15,7 @@
 #'
 #' @export
 prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag = c(5,7), identifier = "ADM2_NAME",
-                                popid = 'totpop2019', interaction = c(1), distrib = 0, con_mat = NULL){
+                                popid = 'totpop2019', interaction = c(1), distrib = 0, con_mat = NULL, con_mat_times=NULL){
 
 
 
@@ -130,13 +130,21 @@ prepare_stan_inputs <- function(timeseries, shapes, timestep=1, period_and_lag =
     Nsum = cases_from,
     distrib = distrib
            )
+  if (length(con_mat_times) > 1){
+    timevecs = list()
+    for(t in con_mat_times){
+      timevecs[paste0("timevec_", s.character(i))] = rep(0, Ti)
+      timevecs[paste0("timevec_", s.character(i))][con_mat_times[i]:con_mat_times[i+1]] = 1
+    }
+  }
+
   if(!is.null(con_mat_multi)){
     if(length(con_mat_multi) == lenght(con_mat_times)){
       con_mat_times = append(con_mat_times, Ti)
       for(i in 1:length(con_mat_multi)){
         datalist[paste0('con_mat_', as.character(i))] = con_mat_multi[i]
-        datalist[paste0("timevec_", s.character(i))] = rep(0, Ti)
-        datalist[paste0("timevec_", s.character(i))][con_mat_times[i]:con_mat_times[i+1]] = 1
+        datalist[paste0('Nsum_', as.character(i))] = t(timevecs[i] * t(cases_from))
+
       }
     }
     else{
