@@ -30,7 +30,7 @@ make_forecast <- function(timeseries_mat, shapes, identifier = 'ADM2_NAME', day_
 
   if (is.null(day_of_forecast)){
     day_of_forecast = dim(timeseries_mat)[2]
-    messsage(day_of_forecast)
+    message(day_of_forecast)
   }
 
 
