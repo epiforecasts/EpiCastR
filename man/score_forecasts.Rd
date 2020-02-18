@@ -22,5 +22,5 @@ score_forecasts(
 \item{day_of_forecast}{tbc}
 }
 \description{
-Score forecasts
+What is happening here?
 }

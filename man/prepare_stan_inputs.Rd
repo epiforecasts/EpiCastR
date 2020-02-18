@@ -13,7 +13,8 @@ prepare_stan_inputs(
   popid = "totpop2019",
   interaction = c(1),
   distrib = 0,
-  con_mat = NULL
+  con_mat = NULL,
+  con_mat_times = NULL
 )
 }
 \arguments{
@@ -34,5 +35,5 @@ prepare_stan_inputs(
 \item{distrib}{poisson = 0, negative binomial = 1}
 }
 \description{
-Prepare stan inputs
+What does this do?
 }

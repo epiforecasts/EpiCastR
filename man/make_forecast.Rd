@@ -54,5 +54,5 @@ make_forecast(
 \item{cores}{number of cores to use}
 }
 \description{
-make_forecast
+What is happening here
 }

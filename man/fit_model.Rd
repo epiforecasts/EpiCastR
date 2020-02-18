@@ -13,7 +13,8 @@ fit_model(
   popid = "totpop2019",
   interaction = c(1),
   distrib = 0,
-  model_path = system.file("extdata/template.stan", package = "EpiCastR"),
+  base_model_path = NULL,
+  final_model_path = NULL,
   fit_meth = "vb",
   chains = 1,
   iter = 100,
@@ -39,7 +40,9 @@ fit_model(
 
 \item{distrib}{poisson = 0, negative binomial = 1}
 
-\item{model_path}{path to stan template to build model}
+\item{base_model_path}{path to stan template to build model. If not supplied the default package template is used.}
+
+\item{final_model_path}{path to final stan model. If not supplied a temporary directory is used.}
 
 \item{fit_meth}{variational bayes 'vb', Hamiltonian MC 'nuts'}
 
@@ -52,5 +55,5 @@ fit_model(
 \item{cores}{number of cores to use}
 }
 \description{
-Fit stan model
+What does this function do?
 }

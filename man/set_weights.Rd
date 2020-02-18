@@ -24,5 +24,5 @@ set_weights(day, days, mu, sig, FUN = pweibull_with_mean_sd)
 \item{distrib}{poisson = 0, negative binomial = 1}
 }
 \description{
-set_weights
+What is happening here
 }
