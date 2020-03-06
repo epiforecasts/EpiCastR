@@ -23,13 +23,16 @@ make_forecast(
   timehorizons = c(7, 14, 28),
   thresholds = c(1, 2, 5, 10, 20),
   close_down = FALSE,
-  con_mat = NULL
+  con_mat = NULL,
+  compiled_model = NULL
 )
 }
 \arguments{
 \item{timeseries_mat}{a matrix of timeseries of cases for each geographical region [region x timestep]}
 
 \item{shapes}{sf or sp object with polygon geometry of regions and population size}
+
+\item{identifier}{name of the column to sort regions by - must cooporate with timeseries order}
 
 \item{day_of_forecast}{day of outbreak to make forecast - default last day of data}
 
@@ -52,6 +55,9 @@ make_forecast(
 \item{warmup}{number of iterations in warmup phase}
 
 \item{cores}{number of cores to use}
+
+\item{compiled_model}{A stan model object. If running multiple analyses using the same model (i.e with
+all model settings the same) then the same compiled stan model may be used to reduce compile times.}
 }
 \description{
 What is happening here

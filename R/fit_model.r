@@ -12,6 +12,8 @@
 #' @param base_model_path path to stan template to build model. If not supplied the default package template is used.
 #' @param final_model_path path to final stan model. If not supplied a temporary directory is used.
 #' @param fit_meth variational bayes 'vb', Hamiltonian MC 'nuts'
+#' @param compiled_model A stan model object. If running multiple analyses using the same model (i.e with
+#' all model settings the same) then the same compiled stan model may be used to reduce compile times.
 #' @param chains number of MC chains
 #' @param cores number of cores to use
 #' @param iter number of iterations per chain
@@ -26,7 +28,7 @@
 
 fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
                       identifier = "ADM2_NAME", popid = 'totpop2019', interaction = c(1), distrib = 0,
-                      base_model_path = NULL, final_model_path = NULL,
+                      base_model_path = NULL, final_model_path = NULL, compiled_model = NULL,
                       fit_meth = 'vb', chains = 1, iter=100, warmup=50, cores = 1, con_mat = 0) {
 
   ## Set default model path to be within package
@@ -58,16 +60,24 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
 
     interactions = interaction
 
-    }
+  }
 
-  ## Construct the stan model based on the template and specified interactions
-  model = construct_stan_model(base_model_path, interactions)
+  if (is.null(compiled_model)) {
 
-  ## Write the model to specific directiory - tmp by default
-  final_model_path <- file.path(final_model_path, "model_running.stan")
-  message("Saving the model to ", final_model_path)
-  write(model, final_model_path)
+    ## Construct the stan model based on the template and specified interactions
+    model = construct_stan_model(base_model_path, interactions)
 
+    ## Write the model to specific directiory - tmp by default
+    final_model_path <- file.path(final_model_path, "model_running.stan")
+    message("Saving the model to ", final_model_path)
+    write(model, final_model_path)
+
+    message("Writing model")
+    sm = rstan::stan_model(model_code = model)
+
+  }else{
+    sm = compiled_model
+  }
 
   ## Add additional interaction parameters
   ## Numeric structure makes this hard to understand
@@ -101,8 +111,6 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
 
   pars = unique(pars)
 
-  message("Writing model")
-  sm = rstan::stan_model(model_code = model)
 
   message("Fitting model")
   ## Fit the stan model using either MCMC or variational bayes
