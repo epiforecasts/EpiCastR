@@ -124,7 +124,7 @@ fit_model <- function(timeseries, shapes, timestep = 1, period_and_lag = c(5,7),
   }
 
   # Why is ordered_shapes not named?
-  return(list(fit = fit1, data = datalist, ordered_shapes))
+  return(list(fit = fit1, data = datalist, ordered_shapes = ordered_shapes))
 }
 
 
