@@ -13,7 +13,7 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
   x_adjmat_x = c("x_adjmat_x","matrix[R, R] adjmat;") ,
   x_spat_int_par_x = c("x_spat_int_par_x", "real<lower=0> alpha_spat; "),
   x_adj_par_x = c("x_adj_par_x", "real<lower=0> alpha_adj; "),
-  x_con_par_x = c("x_adj_par_x", "real<lower=0> alpha_con; "),
+  x_con_par_x = c("x_con_par_x", "real<lower=0> alpha_con; "),
   x_power_for_dist_x = c("x_power_for_dist_x", "real<lower=0> k; "),
   x_con_mat_x = c("x_con_mat_x", "matrix[R, R] con_mat;"),
 
@@ -67,7 +67,7 @@ construct_stan_model <- function(model_path, interactions=c(1,4))
     c("x_distmat_x", "x_popmat_x", "x_spat_int_par_x", "x_power_for_dist_x",  "x_gravity_law_x", "x_gravity_interaction_x", "x_priors_grav_x"),
     c("x_distmat_x", "x_popmat_x", "x_spat_int_par_x", "x_power_for_dist_x",  "x_gravity_law_x", "x_gravity_interaction_x", "x_priors_grav_x"),
     c("x_adjmat_x", "x_adj_par_x", "x_adjacency_interaction_x", "x_priors_adj_x"),
-    c("x_overdispersion_x", "x_priors_over_x"),
+    c("x_overdispersion_x", "x_priors_over_x","x_con_mat_x", "x_con_par_x", "x_con_mat_interaction_x", "x_priors_con_x"),
     c("x_con_mat_x", "x_con_par_x", "x_con_mat_interaction_x", "x_priors_con_x")
     )
 

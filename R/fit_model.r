@@ -84,7 +84,7 @@ fit_model <- function(timeseries, shapes, timestep=1, period_and_lag=c(5,7), ide
     fit1 <- rstan::vb(sm, data = datalist, pars = pars)    # fit stan model
   }
 
-  list(fit = fit1, data = datalist, ordered_shapes)
+  list(fit = fit1, data = datalist, ordered_shapes = ordered_shapes)
 
 }
 

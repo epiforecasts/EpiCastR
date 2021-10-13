@@ -30,7 +30,7 @@ fix_inf <- function(x){
 #' @importFrom stats rpois rnbinom rexp
 #' @export
 #'
-simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03,
+simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL, gamma = 0.14, alpha_adj = 0.03, alpha_spat = 0.03, alpha_con=0.0,
                             k=2.5, beta=1., D=5, Dprime=7, distrib=0, R = 0, dist_mat=0, popmat=0, adjmat=0, con_mat=0)
 
 {
@@ -119,7 +119,7 @@ simulate_cases <-  function(start=0, days=30, case_mat = NULL, cases_from = NULL
 #' @importFrom rstan extract
 #' @importFrom rlist list.append
 #' @importFrom utils tail
-pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7, close_down=FALSE) {
+pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), D=5, Dprime=7, close_down=FALSE, buffer=0) {
 
   fitmat = rstan::extract(fit)
 
@@ -140,6 +140,10 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
   if (!is.null(fitmat$alpha_adj)){
     alpha_adjs = fitmat$alpha_adj  } else {
       alpha_adjs = rep(0,length(fitmat[[1]])) }
+
+  if (!is.null(fitmat$alpha_con)){
+    alpha_cons = fitmat$alpha_con  } else {
+      alpha_cons = rep(0,length(fitmat[[1]])) }
 
   if (!is.null(fitmat$beta)){
     betas = fitmat$beta  } else {
@@ -170,6 +174,7 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
       gamma = gammas[n]                             # set parameter values for realisation
       alpha_spat = alpha_spats[n]
       alpha_adj = alpha_adjs[n]
+      alpha_con = alpha_cons[n]
 
       if (close_down == TRUE){
         alpha_spat = 0.0
@@ -180,14 +185,14 @@ pump_posteriors_multi <- function(fit, data, iters=1, time_horizons=c(7,14,28), 
       beta = betas[n]
       # Simulate forecast data VVV
       case_mat_forcast = simulate_cases(start=2, days=max(time_horizons), case_mat = t(data$N), cases_from = cases_from,
-                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, k = k, beta =beta, R = R, 
+                                        gamma = gamma, alpha_spat = alpha_spat, alpha_adj= alpha_adj, alpha_con= alpha_con, k = k, beta =beta, R = R,
                                         dist_mat = dist_mat, popmat=popmat, adjmat = adjmat, con_mat=con_mat, D=D, Dprime=Dprime)
 
 
       # Return binary descriptor of the presence of cases VVV
 
       for (i in 1:length(time_horizons)) {
-        predicted_cases = colSums(case_mat_forcast[dim(t(data$N))[1]:(dim(t(data$N))[1]+time_horizons[i]),])
+        predicted_cases = colSums(case_mat_forcast[(dim(t(data$N))[1] + buffer) :(dim(t(data$N))[1]+time_horizons[i]),])
 
         # Add to the output object
         all_outs[[i]] = t(rbind(t(all_outs[[i]]), as.vector(predicted_cases)))

@@ -19,9 +19,9 @@
 #'
 
 
-make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of_forecast=NULL, do_score_forecast=TRUE, fit_over=1000, timestep =1 ,  
-                          period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1, 
-                          timehorizons=c(7, 14, 28), thresholds=c(1, 2, 5, 10, 20), close_down=FALSE, con_mat=NULL) {
+make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of_forecast=NULL, do_score_forecast=TRUE, fit_over=1000, timestep =1 ,
+                          period_and_lag = c(5,7) ,interaction = c(1), distrib=1, fit_meth='vb', chains=1, iter=100, warmup=50, cores=1,
+                          timehorizons=c(7, 14, 28), thresholds=c(1, 2, 5, 10, 20), close_down=FALSE, con_mat=NULL, buffer=0) {
 
 
   print(do_score_forecast)
@@ -48,7 +48,7 @@ make_forecast <- function(timeseries_mat, shapes, identifier='ADM2_NAME', day_of
   #print(class(ds_ordered))
 
 
-  ForecastCases = pump_posteriors_multi(FitModel$fit, FitModel$data, D=period_and_lag[1], Dprime=period_and_lag[2], time_horizons=timehorizons, close_down=close_down)
+  ForecastCases = pump_posteriors_multi(FitModel$fit, FitModel$data, D=period_and_lag[1], Dprime=period_and_lag[2], time_horizons=timehorizons, close_down=close_down, buffer=buffer)
 
   print("forecasts made")
 

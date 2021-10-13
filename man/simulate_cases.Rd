@@ -12,6 +12,7 @@ simulate_cases(
   gamma = 0.14,
   alpha_adj = 0.03,
   alpha_spat = 0.03,
+  alpha_con = 0,
   k = 2.5,
   beta = 1,
   D = 5,
