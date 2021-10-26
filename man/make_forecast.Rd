@@ -32,6 +32,8 @@ make_forecast(
 
 \item{shapes}{sf or sp object with polygon geometry of regions and population size}
 
+\item{identifier}{name of the column to sort regions by - must cooporate with timeseries order}
+
 \item{day_of_forecast}{day of outbreak to make forecast - default last day of data}
 
 \item{fit_over}{number of timesteps to fit over.}
@@ -55,5 +57,5 @@ make_forecast(
 \item{cores}{number of cores to use}
 }
 \description{
-make_forecast
+What is happening here
 }

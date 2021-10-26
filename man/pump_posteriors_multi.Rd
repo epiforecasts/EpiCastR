@@ -25,5 +25,5 @@ pump_posteriors_multi(
 \item{time_horizons}{vector of timehorizons to return forecasts for}
 }
 \description{
-Pump posteriors
+What does this do?
 }

@@ -1,16 +1,26 @@
 
-Spatial forecasting of infectious disease outbreaks in R
-=============
+# Spatial forecasting of infectious disease outbreaks in R
 
-Installation
-==============
+<!-- badges: start -->
+<!-- badges: end -->
 
-The package can be installed using
+The goal of EpiCastR is to ...
 
-```r
+## Installation
+
+The package can be installed using:
+
+``` r
 remotes::install_github("epiforecasts/EpiCastR")
 ```
 
-Documentation
-======
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(EpiCastR)
+## basic example code
+```
+
 
