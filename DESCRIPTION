@@ -9,14 +9,18 @@ Authors@R: c(
 Description: Takes a shapefile and a matrix of cases (regions x timestep) and performs a spatial forecast with options for spatial interaction rules.
 License: GPL-3
 Imports:
-  DescTools,
-  rstan,
-  sf,
-  spdep,
-  zoo,
-  data.table,
-  rlist,
-  EpiForecastsUtils
+    DescTools,
+    rstan,
+    sf,
+    spdep,
+    zoo,
+    data.table,
+    rlist,
+    EpiForecastsUtils,
+    magrittr,
+    dplyr,
+    raster,
+    tibble
 Remotes:
    epiforecasts/EpiForecastsUtils
 Depends: rstan
