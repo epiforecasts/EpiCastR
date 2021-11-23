@@ -8,6 +8,8 @@
 #'
 #' @return A data.frame object with three columns: `id` (the ID of the polygon in shape), `lng` (longitude) and `lat` (latitude).
 #'
+#' @export
+#'
 calc_pop_centroids <- function(shape, raster_obj, crs) {
 
   if(missing(crs)) {
