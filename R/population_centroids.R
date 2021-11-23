@@ -16,7 +16,7 @@ calc_pop_centroids <- function(shape, raster_obj, crs) {
 
   raster_obj <- raster::projectRaster(raster_obj,
                                       crs = crs)
-  shape <- st_transform(shape, crs = crs)
+  shape <- sf::st_transform(shape, crs = crs)
 
   out <- purrr::map_df(.x = shape$id,
                        .f = ~ {
@@ -32,12 +32,12 @@ calc_pop_centroids <- function(shape, raster_obj, crs) {
                                                           w = raster_points[,3],
                                                           na.rm = TRUE)
 
-                         out <- tibble(id = .x,
-                                       lng = x_coord,
-                                       lat = y_coord)
+                         out <- tibble::tibble(id = .x,
+                                               lng = x_coord,
+                                               lat = y_coord)
 
                        }) %>%
-    bind_rows()
+    dplyr::bind_rows()
 
   return(out)
 
